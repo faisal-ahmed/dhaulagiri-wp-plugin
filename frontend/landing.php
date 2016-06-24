@@ -12,6 +12,7 @@
 
     <form method="post" action="<?php echo $nextPageUrl ?>" id="monthSelectForm">
         <input type="hidden" name="month" id="monthSelect"/>
+        <input type="hidden" name="year" id="yearSelect"/>
     </form>
 
     <script src="<?php echo getMyPluginUrl() ?>static/jquery-1.11.3.min.js"></script>
@@ -24,10 +25,11 @@
         });
 
         $(function(){
-            $('.months-container div').click(function(event) {
+            $('.months-container div, .months-container div .old').click(function(event) {
                 var parent = $(this).parents(".month-container");
                 var monthSerial = parent.index();
                 $("#monthSelect").val(monthSerial);
+                $("#yearSelect").val(new Date().getFullYear());
                 $("#monthSelectForm").submit();
             });
         });

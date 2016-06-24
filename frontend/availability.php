@@ -28,11 +28,13 @@
                 editable: true,
                 eventLimit: true,
                 events: [
-                    {
-                        title: 'Long Event',
-                        start: '2016-06-07',
-                        end: '2016-06-10'
-                    }
+                    <?php foreach ($results as $key => $result) { ?>
+                        {
+                            title: '<?php echo $result['group_name'] ?>',
+                            start: '<?php list($dd, $mm, $yyyy) = explode("-", $result['trip_start']); echo "$yyyy-$mm-$dd"; ?>',
+                            url: '<?php echo "$trekker_detail_url?g=" . $result['group_name']; ?>'
+                        },
+                    <?php } ?>
                 ]
             });
 

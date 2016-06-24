@@ -54,7 +54,7 @@ if (isset($redirect_to)) { ?>
             </p>
             <p>
                 <label for="picture">Picture of the Trekker:</label>
-                <input type="file" name="picture" id="picture" required/>
+                <input type="file" name="picture" id="picture" accept="image/*" required/>
             </p>
             <p>
                 <label for="age">Age:</label>
@@ -86,6 +86,10 @@ if (isset($redirect_to)) { ?>
             </p>
         </fieldset>
         <div id="additionalMembers" style="display: block"></div>
+        <p>
+            <input type="checkbox" name="terms" required/>
+            <label for="short_intro">I accept the <a href="<?php echo $termsConditionPage ?>">Terms & Conditions</a>.</label>
+        </p>
         <p id="addNew">
             <a class="submit_style_link" href="javascript:void(0)" onclick="addNew()">Add More Members</a>
         </p>
@@ -167,6 +171,7 @@ if (isset($redirect_to)) { ?>
     function getHtml(i){
         var str =
             '<fieldset style="display: none;" id="' + i + '">'+
+                '<p><h3>Additional Member</h3></p>'+
                 '<p>'+
                     '<label for="full_name' + i + '">Full Name:</label>'+
                     '<input id="full_name' + i + '" type="text" name="full_name' + i + '" required/>'+
@@ -184,7 +189,7 @@ if (isset($redirect_to)) { ?>
                 '</p>'+
                 '<p>'+
                     '<label for="picture' + i + '">Picture of the Trekker:</label>'+
-                    '<input type="file" name="picture' + i + '" id="picture' + i + '" required/>'+
+                    '<input type="file" accept="image/*" name="picture' + i + '" id="picture' + i + '" required/>'+
                 '</p>'+
                 '<p>'+
                     '<label for="age' + i + '">Age:</label>'+

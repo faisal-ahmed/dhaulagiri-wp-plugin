@@ -68,8 +68,6 @@
                                     <td><?php echo $result['nationality'] ?></td>
                                     <td><?php echo $result['arriving_on'] ?></td>
                                     <td><?php echo $result['departing_on'] ?></td>
-                                    <td><?php echo $result['trip_start'] ?></td>
-                                    <td><?php echo $result['trip_end'] ?></td>
                                 </tr>
                             <?php } ?>
                             </tbody>

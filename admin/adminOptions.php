@@ -24,6 +24,22 @@ if (isset($_REQUEST['update']) && $_REQUEST['update'] == 'Y') {
     <input type="hidden" name="update" value="Y"/>
 
     <div>
+        <label>Itinerary Page ID:</label><br/>
+        <input name="dhaulagiri_itinerary_page_id" value="<?php echo get_option("dhaulagiri_itinerary_page_id", "") ?>"/>
+    </div>
+    <div>
+        <label>Package Page ID:</label><br/>
+        <input name="dhaulagiri_package_page_id" value="<?php echo get_option("dhaulagiri_package_page_id", "") ?>"/>
+    </div>
+    <div>
+        <label>"How It Work" Page ID:</label><br/>
+        <input name="dhaulagiri_how_it_work_page_id" value="<?php echo get_option("dhaulagiri_how_it_work_page_id", "") ?>"/>
+    </div>
+    <div>
+        <label>"Terms & Conditions" Page ID:</label><br/>
+        <input name="dhaulagiri_terms_conditions_page_id" value="<?php echo get_option("dhaulagiri_terms_conditions_page_id", "") ?>"/>
+    </div>
+    <div>
         <label>Instruction For the Thank You Page:</label><br/>
         <textarea name="dhaulagiri_registration_instructions" cols="100"
                   rows="10"><?php echo get_option("dhaulagiri_registration_instructions", "") ?></textarea>
@@ -47,18 +63,6 @@ if (isset($_REQUEST['update']) && $_REQUEST['update'] == 'Y') {
         <label>Paypal Button URL:</label><br/>
         <textarea name="dhaulagiri_paypal_button" cols="100"
                   rows="10"><?php echo get_option("dhaulagiri_paypal_button", "") ?></textarea>
-    </div>
-    <div>
-        <label>Itinerary Page ID:</label><br/>
-        <input name="dhaulagiri_itinerary_page_id" value="<?php echo get_option("dhaulagiri_itinerary_page_id", "") ?>"/>
-    </div>
-    <div>
-        <label>Package Page ID:</label><br/>
-        <input name="dhaulagiri_package_page_id" value="<?php echo get_option("dhaulagiri_package_page_id", "") ?>"/>
-    </div>
-    <div>
-        <label>"How It Work" Page ID:</label><br/>
-        <input name="dhaulagiri_how_it_work_page_id" value="<?php echo get_option("dhaulagiri_how_it_work_page_id", "") ?>"/>
     </div>
     <?php submit_button(); ?>
 </form>

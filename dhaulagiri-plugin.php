@@ -192,6 +192,19 @@ function dhaulagiri_trekkers_availability() {
     $form_booking_url = get_permalink(get_option("Dhaulagiri-Book-Your-Date"));
     $trekker_detail_url = get_permalink(get_option("Dhaulagiri-Trekkers-Detail"));
     $month = $_REQUEST['month'];
+    $monthForDB = $month+1;
+    $year = $_REQUEST['year'];
+    if ($monthForDB < 10) {
+        $monthForDB = "0$monthForDB";
+    }
+    if (!isset($year) || $year == '' || $year == NULL){
+        $year = date("Y");
+    }
+    global $wpdb;
+    global $DB_TABLE;
+
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $DB_TABLE WHERE approved = 1 AND trip_start LIKE %s group by group_name", "%-$monthForDB-$year"), ARRAY_A);
+
     ob_start();
     include ("frontend/availability.php");
     return ob_get_clean();
@@ -203,6 +216,7 @@ function dhaulagiri_trekkers_date_booking() {
     frontendUtils();
     $form_booking_url = get_permalink(get_option("Dhaulagiri-Book-Your-Date"));
     $trekker_detail_url = get_permalink(get_option("Dhaulagiri-Trekkers-Detail"));
+    $termsConditionPage = get_permalink( get_option("dhaulagiri_terms_conditions_page_id") );
     if ($_REQUEST['booking'] == 'Y'){
         insert_data_into_db();
         $redirect_to =  get_option("dhaulagiri_paypal_button");
@@ -219,8 +233,22 @@ function dhaulagiri_trekkers_trekker_detail() {
     frontendUtils();
     $form_booking_url = get_permalink(get_option("Dhaulagiri-Book-Your-Date"));
     $trekker_detail_url = get_permalink(get_option("Dhaulagiri-Trekkers-Detail"));
+    $itineraryPage = get_permalink( get_option("dhaulagiri_itinerary_page_id") );
+    $packagePage = get_permalink( get_option("dhaulagiri_package_page_id") );
+    $howItWorkPage = get_permalink( get_option("dhaulagiri_how_it_work_page_id") );
+    global $wpdb;
+    global $DB_TABLE;
+
+    if (isset($_REQUEST['group_name'])) {
+        insert_data_into_db();
+        $redirect_to =  get_option("dhaulagiri_paypal_button");
+        echo "<h3>" . get_option("dhaulagiri_registration_instructions") . "</h3>";
+    } else {
+        $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $DB_TABLE WHERE approved = 1 AND group_name = '%s'", $_REQUEST['g']), ARRAY_A);
+    }
+
     ob_start();
-    include ("frontend/landing.php");
+    include ("frontend/group_detail.php");
     return ob_get_clean();
 }
 
