@@ -1,0 +1,9 @@
+#dhaulagiri_option_form{
+    margin: 20px;
+}
+
+#dhaulagiri_option_form label{
+    font-weight: bold;
+    padding-bottom: 10px;
+    display: inline-block;
+}
