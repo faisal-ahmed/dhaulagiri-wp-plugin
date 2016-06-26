@@ -138,13 +138,20 @@ function list_applicants() {
     global $DB_TABLE;
 
     if (isset($_REQUEST['approve_status'])) {
+        /*$results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $DB_TABLE WHERE approved = 1 AND group_name = '%s'", $_REQUEST['group_name']), ARRAY_A);
+
+        if (count($results) > 0) {
+            foreach ($results as $key => $value) {
+                $message = "A new member just joined";
+            }
+        }*/
+
         $data = array(
             'trip_start' => $_REQUEST['trip_start'],
             'trip_end' => $_REQUEST['trip_end'],
             'approved' => $_REQUEST['approve_status'],
         );
         $wpdb->update( $DB_TABLE, $data, array('id' => $_REQUEST['id']) );
-        $updated = 1;
     }
 
     $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $DB_TABLE WHERE approved = 0"), ARRAY_A);
@@ -182,6 +189,21 @@ function dhaulagiri_trekkers_func() {
     $nextPageUrl = get_permalink(get_option("Dhaulagiri-Check-Availability"));
     ob_start();
     include ("frontend/landing.php");
+    return ob_get_clean();
+}
+
+add_shortcode("Dhaulagiri-Trekker-Home-Section", "dhaulagiri_trekkers_home_page");
+
+function dhaulagiri_trekkers_home_page() {
+    frontendUtils();
+    $trekker_detail_url = get_permalink(get_option("Dhaulagiri-Trekkers-Detail"));
+    global $wpdb;
+    global $DB_TABLE;
+
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $DB_TABLE WHERE approved = 1"), ARRAY_A);
+
+    ob_start();
+    include ("frontend/homePage.php");
     return ob_get_clean();
 }
 
@@ -236,6 +258,7 @@ function dhaulagiri_trekkers_trekker_detail() {
     $itineraryPage = get_permalink( get_option("dhaulagiri_itinerary_page_id") );
     $packagePage = get_permalink( get_option("dhaulagiri_package_page_id") );
     $howItWorkPage = get_permalink( get_option("dhaulagiri_how_it_work_page_id") );
+    $PaymentDescriptionPage = get_permalink( get_option("dhaulagiri_payment_condition_page_id") );
     global $wpdb;
     global $DB_TABLE;
 

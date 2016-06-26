@@ -22,16 +22,29 @@
 <link href="<?php echo getMyPluginUrl() ?>datatable/bower_components/font-awesome/css/font-awesome.min.css"
       rel="stylesheet" type="text/css">
 
-<link rel="stylesheet" type="text/css" href="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.min.css"/>
-<link rel="stylesheet" type="text/css" href="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.structure.min.css"/>
-<link rel="stylesheet" type="text/css" href="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.theme.min.css"/>
-
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<!-- jQuery -->
+<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.min.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.structure.min.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.theme.min.css"/>
+<script src="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.min.js"></script>
+
+
 <div id="wrapper" style="padding: 10px; border-left: 0;">
 
     <div class="row">
@@ -82,28 +95,6 @@
                                         <a id="updateID<?php echo $result['id'] ?>" href="javascript:void(0);" onclick="update(<?php echo $result['id'] ?>)">Update Record</a>
                                     </td>
                                 </tr>
-                                <tr class="gradeX" role="row">
-                                    <td colspan="10" style="padding: 0;">
-                                        <form action="" method="post" id="statusForm">
-                                            <input type="hidden" id="approve_status" name="approve_status" value="0">
-                                            <input type="hidden" name="id" value="<?php echo $result['id'] ?>">
-                                            <div style="display: none; padding: 8px;" id="update<?php echo $result['id'] ?>">
-                                            <div class="form-group input-group">
-                                                <span class="input-group-addon" style="width: 120px;">Trip Start Date</span>
-                                                <input type="text" class="form-control" name="trip_start" id="trip_start" placeholder="Trip Start Date" required>
-                                            </div>
-                                            <div class="form-group input-group">
-                                                <span class="input-group-addon" style="width: 120px;">Trip End Date</span>
-                                                <input type="text" class="form-control" name="trip_end" id="trip_end" placeholder="Trip End Date" required>
-                                            </div>
-                                            <p>
-                                                <input type="submit" onclick="submitStatusForm(1);" class="btn btn-primary" value="Approve Applicant"/>
-                                                <input type="submit" onclick="submitStatusForm(2);" class="btn btn-danger" value="Reject Applicant"/>
-                                            </p>
-                                        </div>
-                                        </form>
-                                    </td>
-                                </tr>
                             <?php } ?>
                             </tbody>
                         </table>
@@ -117,26 +108,47 @@
     </div>
 </div>
 
-<!-- jQuery -->
-<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/jquery/dist/jquery.min.js"></script>
+<?php foreach ($results as $row => $result) { ?>
+    <div id="update<?php echo $result['id']  ?>" style="display: none; ">
+        <form action="" method="post" id="statusForm<?php echo $result['id'] ?>">
+            <input type="hidden" id="approve_status<?php echo $result['id'] ?>" name="approve_status" value="0">
+            <input type="hidden" name="id" value="<?php echo $result['id'] ?>">
+            <input type="hidden" name="group_name" value="<?php echo $result['group_name'] ?>">
 
-<!-- Bootstrap Core JavaScript -->
-<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+            <div style="padding: 8px;">
+                <div class="form-group input-group">
+                    <span class="input-group-addon" style="width: 150px;">Trip Start Date</span>
+                    <input type="text" class="form-control" name="trip_start" id="trip_start" placeholder="Trip Start Date"
+                           required>
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon" style="width: 150px;">Trip End Date</span>
+                    <input type="text" class="form-control" name="trip_end" id="trip_end" placeholder="Trip End Date"
+                           required>
+                </div>
+                <p>
+                    <input type="submit" onclick="submitStatusForm(1, <?php echo $result['id'] ?>);" class="btn btn-primary" value="Approve Applicant"/>
+                    <input type="submit" onclick="submitStatusForm(2, <?php echo $result['id'] ?>);" class="btn btn-danger" value="Reject Applicant"/>
+                </p>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $( "#update<?php echo $result['id']  ?>" ).dialog({
+                autoOpen: false,
+                resizable: false,
+                modal: true,
+                width:'auto',
+                open: function(event, ui) {
+                    $('#trip_start').datepicker('enable');
+                    $('#trip_end').datepicker('enable');
+                }
+            });
+        });
+    </script>
+<?php } ?>
 
-<!-- Metis Menu Plugin JavaScript -->
-<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-<!-- DataTables JavaScript -->
-<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo getMyPluginUrl() ?>datatable/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="<?php echo getMyPluginUrl() ?>datatable/dist/js/sb-admin-2.js"></script>
-
-<!--<script src="<?php /*echo getMyPluginUrl() */?>static/jquery-1.11.3.min.js"></script>-->
-<script src="<?php echo getMyPluginUrl() ?>datepicker/jquery-ui.min.js"></script>
-
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
     $(document).ready(function() {
         $('#applicantList').DataTable({
@@ -153,10 +165,15 @@
     });
 
     function update(id){
-        $("#update" + id).slideToggle();
+        $('#trip_start').datepicker('disable');
+        $('#trip_end').datepicker('disable');
+        $( "#update" + id ).dialog("open");
     }
 
-    function submitStatusForm(val){
-        $("#approve_status").val(val);
+    function submitStatusForm(val, id){
+        $("#approve_status" + id).val(val);
+        if (val == 2) {
+            $("#statusForm" + id).submit();
+        }
     }
 </script>

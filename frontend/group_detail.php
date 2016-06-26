@@ -48,7 +48,7 @@
 
     <div id="firstRow" class="row">
         <div class="col-lg-12">
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 style="margin: 10px 5px;">Group Name: <?php echo $results[0]['group_name'] ?></h3>
                 </div>
@@ -57,8 +57,8 @@
                         <h3 style="margin: 10px 5px;">Trekkers:</h3>
                         <?php foreach ($results as $key => $value) { ?>
                             <span class="chat-img pull-left">
-                                <a href="javascript:void(0)" onclick="userDetail(<?php echo $value["id"]?>)">
-                                    <img src="<?php echo $value["picture_url"]?>" alt="User Avatar" style="width: 100px; height: 100px; margin-right: 10px;" class="img-circle">
+                                <a href="javascript:void(0)" onclick="userDetailDialog(<?php echo $value["id"]?>)">
+                                    <img src="<?php echo $value["picture_url"]?>" alt="User Avatar" style="width: 100px; height: 100px; margin-right: 10px;">
                                 </a>
                             </span>
                         <?php } ?>
@@ -66,40 +66,41 @@
                 </div>
 
                 <?php foreach ($results as $key => $value) { ?>
-                <div id="details<?php echo $value["id"]?>" class="panel panel-default" style="margin: 10px; display: none;">
-                    <div class="panel-heading">
-                        <strong>Trekker Name: <?php echo $value['full_name'] ?></strong>
-                        <button onclick="closeCurrent();" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    </div>
-                    <div class="panel-body">
+                <div title="Trekker Name: <?php echo $value['full_name'] ?>" id="details<?php echo $value["id"]?>" class="panel panel-default" style="margin: 10px 0 0; padding: 0; overflow-y: auto; z-index: 999999; display: none;">
+                    <div class="panel-body" style="padding: 0;">
                         <div class="col-lg-4" style="text-align: center">
                             <img src="<?php echo $value["picture_url"]?>" alt="User Avatar" style="width: 80%; height: auto; margin-right: 10px;">
                         </div>
                         <div class="col-lg-8">
                             <div class="table-responsive">
-                                <table class="table" style="margin-bottom: 0;">
+                                <table class="table table-striped" style="margin-bottom: 0;">
                                     <tbody>
-                                    <tr class="warning">
+                                    <tr style="display: none;"><td colspan="2"></td></tr>
+                                    <tr class="">
                                         <td style="width: 20%;">Nationality:</td>
                                         <td style="width: 80%;"><?php echo $value['nationality'] ?></td>
                                     </tr>
-                                    <tr class="success">
+                                    <tr class="">
                                         <td style="width: 20%;">Language:</td>
                                         <td style="width: 80%;"><?php echo $value['lang'] ?></td>
                                     </tr>
-                                    <tr class="warning">
+                                    <tr class="">
+                                        <td style="width: 20%;">Email:</td>
+                                        <td style="width: 80%;"><?php echo $value['email'] ?></td>
+                                    </tr>
+                                    <tr class="">
                                         <td style="width: 20%;">Age:</td>
                                         <td style="width: 80%;"><?php echo $value['age'] ?></td>
                                     </tr>
-                                    <tr class="success">
+                                    <tr class="">
                                         <td style="width: 20%;">Gender:</td>
                                         <td style="width: 80%;"><?php echo $value['gender'] ?></td>
                                     </tr>
-                                    <tr class="warning">
+                                    <tr class="">
                                         <td style="width: 20%;">Previous Hiking Experience:</td>
                                         <td><?php echo $value['prev_hiking_exp'] ?></td>
                                     </tr>
-                                    <tr class="success">
+                                    <tr class="">
                                         <td style="width: 20%;">Short Introduction:</td>
                                         <td style="width: 80%;"><?php echo $value['short_intro'] ?></td>
                                     </tr>
@@ -109,33 +110,56 @@
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $( "#details<?php echo $value['id']  ?>" ).dialog({
+                            autoOpen: false,
+                            resizable: false,
+                            overflow:"auto",
+                            modal: true,
+                            width:'50%',
+                            height:'400',
+                            open: function() {
+                                $(this).parent().css('position', 'fixed');
+                                $('.ui-widget-overlay').addClass('custom-overlay');
+                            },
+                            close: function() {
+                                $('.ui-widget-overlay').removeClass('custom-overlay');
+                            }
+                        });
+                    });
+                </script>
                 <?php } ?>
 
                 <div class="panel panel-default" style="margin: 10px;">
                     <div class="panel-heading">
                         <strong>Group Details:</strong>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="padding: 0;">
                         <div class="table-responsive">
-                            <table class="table" style="margin-bottom: 0;">
+                            <table class="table table-striped" style="margin-bottom: 0;">
                                 <tbody>
-                                <tr class="danger">
+                                <tr style="display: none;"><td colspan="2"></td></tr>
+                                <tr class="">
                                     <td style="width: 20%;">Itinerary:</td>
                                     <td style="width: 80%;"><a target="_blank" href="<?php echo $itineraryPage ?>"><?php echo $results[0]['itinerary'] ?></a></td>
                                 </tr>
-                                <tr class="info">
+                                <tr class="">
                                     <td>Trip Start Date:</td>
                                     <td><?php echo $results[0]['trip_start'] ?></td>
                                 </tr>
-                                <tr class="danger">
+                                <tr class="">
                                     <td>Trip End Date:</td>
                                     <td><?php echo $results[0]['trip_end'] ?></td>
                                 </tr>
-                                <tr class="info">
+                                <tr class="">
                                     <td>Package:</td>
                                     <td><a target="_blank" href="<?php echo $packagePage ?>"><?php echo $results[0]['package'] ?></a></td>
                                 </tr>
-                                <tr class="danger">
+                                <tr class="">
+                                    <td colspan="2"><a target="_blank" href="<?php echo $PaymentDescriptionPage ?>">Payment Details</a></td>
+                                </tr>
+                                <tr class="">
                                     <td colspan="2"><a target="_blank" href="<?php echo $howItWorkPage ?>">How it works?</a></td>
                                 </tr>
                                 </tbody>
@@ -221,7 +245,6 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 
 <script type="text/javascript">
-    var currentSlideUp = '';
     var country = '';
     $(function() {
         $.get("http://ipinfo.io", function(response) {
@@ -247,19 +270,12 @@
         });
     });
 
-    function userDetail(id){
-        $("#details" + currentSlideUp).slideToggle();
-        $("#details" + id).slideToggle();
-        currentSlideUp = id;
-    }
-
-    function closeCurrent(){
-        $("#details" + currentSlideUp).slideToggle();
-        currentSlideUp = '';
-    }
-
     function confirmRegistration(){
         $("#firstRow").slideToggle();
         $("#secondRow").slideToggle();
+    }
+
+    function userDetailDialog(id){
+        $( "#details" + id ).dialog("open");
     }
 </script>

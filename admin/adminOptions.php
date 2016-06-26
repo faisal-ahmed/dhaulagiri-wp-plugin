@@ -4,11 +4,12 @@ if (isset($_REQUEST['update']) && $_REQUEST['update'] == 'Y') {
     update_option("dhaulagiri_registration_instructions", $_REQUEST['dhaulagiri_registration_instructions']);
     update_option("dhaulagiri_itinerary_options", $_REQUEST['dhaulagiri_itinerary_options']);
     update_option("dhaulagiri_package_options", $_REQUEST['dhaulagiri_package_options']);
-    update_option("dhaulagiri_terms_conditions", $_REQUEST['dhaulagiri_terms_conditions']);
     update_option("dhaulagiri_paypal_button", $_REQUEST['dhaulagiri_paypal_button']);
     update_option("dhaulagiri_itinerary_page_id", $_REQUEST['dhaulagiri_itinerary_page_id']);
     update_option("dhaulagiri_package_page_id", $_REQUEST['dhaulagiri_package_page_id']);
     update_option("dhaulagiri_how_it_work_page_id", $_REQUEST['dhaulagiri_how_it_work_page_id']);
+    update_option("dhaulagiri_terms_conditions_page_id", $_REQUEST['dhaulagiri_terms_conditions_page_id']);
+    update_option("dhaulagiri_payment_condition_page_id", $_REQUEST['dhaulagiri_payment_condition_page_id']);
     $updateMsg = 1;
 }
 ?>
@@ -40,6 +41,10 @@ if (isset($_REQUEST['update']) && $_REQUEST['update'] == 'Y') {
         <input name="dhaulagiri_terms_conditions_page_id" value="<?php echo get_option("dhaulagiri_terms_conditions_page_id", "") ?>"/>
     </div>
     <div>
+        <label>"Payment Description" Page ID:</label><br/>
+        <input name="dhaulagiri_payment_condition_page_id" value="<?php echo get_option("dhaulagiri_payment_condition_page_id", "") ?>"/>
+    </div>
+    <div>
         <label>Instruction For the Thank You Page:</label><br/>
         <textarea name="dhaulagiri_registration_instructions" cols="100"
                   rows="10"><?php echo get_option("dhaulagiri_registration_instructions", "") ?></textarea>
@@ -53,11 +58,6 @@ if (isset($_REQUEST['update']) && $_REQUEST['update'] == 'Y') {
         <label>Package Options (Enter each option with &lt;option&gt;&lt;/option&gt;):</label><br/>
         <textarea name="dhaulagiri_package_options" cols="100"
                   rows="10"><?php echo get_option("dhaulagiri_package_options", "") ?></textarea>
-    </div>
-    <div>
-        <label>Terms & Condition:</label><br/>
-        <textarea name="dhaulagiri_terms_conditions" cols="100"
-                  rows="10"><?php echo get_option("dhaulagiri_terms_conditions", "") ?></textarea>
     </div>
     <div>
         <label>Paypal Button URL:</label><br/>
